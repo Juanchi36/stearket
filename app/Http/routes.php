@@ -11,17 +11,11 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return view('default');
-});
+// games routes
 
-$app->get('/hola-mundo', function () use ($app) {
-    return view('hola');
-});
+$app->get('games', 'GamesController@showAllGames');
+$app->get('game', 'GamesController@showOneGame');
+$app->delete('game/destroy', 'GamesController@destroyGame');
+$app->post('game/store', 'GamesController@storeGame');
+$app->put('game/update', 'GamesController@updateGame');
 
-// todo routes
-$app->get('todos', 'TodosController@all');
-$app->post('todos/destroy', 'TodosController@destroy');
-$app->post('todos/store', 'TodosController@store');
-$app->post('todos/done', 'TodosController@done');
-$app->post('todos/undone', 'TodosController@unDone');
