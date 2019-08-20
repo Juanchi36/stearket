@@ -19,7 +19,7 @@
 <body>
 	<div id="app"></div>
 	<script>
-		var API_URL = '{{url('/')}}';
+		var API_URL = '{{url('/games')}}';
 	</script>
 	<script src="js/build/build.js"></script>
 </body>

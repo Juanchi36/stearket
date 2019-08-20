@@ -10,7 +10,9 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-
+$app->get('/', function () use ($app) {
+    return view('default');
+});
 // games routes
 
 $app->get('games', 'GamesController@showAllGames');

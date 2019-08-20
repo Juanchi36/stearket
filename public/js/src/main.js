@@ -1,6 +1,6 @@
-import React from 'react'
-import { render } from 'react-dom'
+import React from 'react';
+import { render } from 'react-dom';
 
-import TodoApp from './components/TodoApp';
+import GameApp from './components/GameApp';
 
-render(<TodoApp />, document.getElementById('app'));
+render(<GameApp />, document.getElementById('app'));
