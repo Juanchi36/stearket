@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // our components
 import GameList from './GameList';
 //import TodoForm from './TodoForm';
+import GameSearch from './GameSearch';
 
 export default class Game extends Component {
 	constructor (props) {
@@ -36,6 +37,8 @@ export default class Game extends Component {
 					/>
 					{/* <div className='ui divider' />
 					<TodoForm onTodoStore={this.handleNewTodo.bind(this)} /> */}
+					<div className='ui divider' />
+					<GameSearch />
 				</div>
 			</div>
 		);
