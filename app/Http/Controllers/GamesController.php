@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Todo;
 use Illuminate\Http\Request;
 use App\Game;
 
@@ -43,7 +42,6 @@ class GamesController extends Controller
     {
         // $game = Game::findOrFail($id);
         // $game->update($request->all());
-
         // return response()->json($game, 200);
         return 'update';
     }

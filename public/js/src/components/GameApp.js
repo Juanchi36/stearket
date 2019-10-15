@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 
 // our components
 import GameList from './GameList';
-//import TodoForm from './TodoForm';
+
 import GameSearch from './GameSearch';
+import Toggle from './Toggle';
 
 export default class Game extends Component {
 	constructor (props) {
@@ -27,6 +28,7 @@ export default class Game extends Component {
 		return (
 			<div className='ui grid'>
 				<div className='column'>
+					{/* <UserNav /> */}
 					{/* <h1>{this.remaining()} Remaining of {this.state.todos.length}</h1> */}
 					<h1>Juegos</h1>
 					<div className='ui divider' />
@@ -39,6 +41,7 @@ export default class Game extends Component {
 					<TodoForm onTodoStore={this.handleNewTodo.bind(this)} /> */}
 					<div className='ui divider' />
 					<GameSearch />
+					<Toggle />
 				</div>
 			</div>
 		);
