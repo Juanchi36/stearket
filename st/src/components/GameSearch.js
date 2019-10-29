@@ -1,26 +1,35 @@
 import React, { useState } from 'react';
 import { InputGroup, Button, FormControl } from 'react-bootstrap';
 import axios from 'axios';
+import { func } from 'prop-types';
 
 export default function GameSearch () {
 	const [ gameName, setGameName ] = useState('');
+	const [ data, setData ] = useState([]);
+	const [ price, setPrice ] = useState('');
 
 	const handleClick = () => {
 		let replacedName = gameName.replace(/ /g, '+');
-		// console.log(replacedName);
 		callToG2a(replacedName);
 	};
 
-	const callToG2a = (name) => {
+	const handleChange = (e) => {
+		setGameName(e.target.value);
+		let replacedName = e.target.value.replace(/ /g, '+');
+		callToG2a(replacedName);
+	}
+
+	const getPrice = (e) => {
+		setPrice('https://www.g2a.com/marketplace/product/auctions/?id=' + e.target.id);
+		console.log(price);
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		headers.append('Accept', 'application/json');
 
 		headers.append('Origin', 'http://localhost:3000');
-		//console.log(headers);
 		axios
 			.get(
-				`https://store.steampowered.com/api/appdetails?appids=1164400&cc=ars`,
+				'https://cors-anywhere.herokuapp.com/https://www.g2a.com/marketplace/product/auctions/?id=' + e.target.id,
 				{
 					mode: 'cors',
 					credentials: 'include',
@@ -29,20 +38,44 @@ export default function GameSearch () {
 				}
 			)
 			.then((res) => {
-				// const persons = res.data;
-				// this.setState({ persons });
-				console.log(res);
+				let prices = res.data.lowest_price
+				setPrice(prices);
+				console.log(price);
 			});
-		// 	let url = 'https://www.g2a.com/lucene/search/filter?&search=street' + name;
-		// 	fetch(
-		// 		url,
-		// 		{
-		// 			// mode: 'no-cors'
-		// 		}
-		// 	)
-		// 		.then((res) => res.text())
-		// 		.catch((error) => console.error('Error:', error))
-		// 		.then((response) => console.log('Success:', response));
+	}
+
+	const List = () => {
+		return (
+			<div>
+				{
+					data.map(item => (
+					item.name.indexOf('Key') === -1 ? <p><a href='#' id ={item.id} key={item.id} onClick={getPrice}>{item.name}</a></p> : null
+					))
+				}
+			</div>
+		)
+	}
+
+	const callToG2a = (name) => {
+		let headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+		headers.append('Accept', 'application/json');
+
+		headers.append('Origin', 'http://localhost:3000');
+		axios
+			.get(
+				'https://cors-anywhere.herokuapp.com/https://www.g2a.com/lucene/search/filter?&search='+ name,
+				{
+					mode: 'cors',
+					credentials: 'include',
+					method: 'GET',
+					headers: headers
+				}
+			)
+			.then((res) => {
+				let games = res.data.docs
+				setData(games);
+			});
 	};
 
 	return (
@@ -52,7 +85,7 @@ export default function GameSearch () {
 					placeholder='Nombre del juego'
 					aria-label='Recipient&#39;s username'
 					aria-describedby='basic-addon2'
-					onChange={(e) => setGameName(e.target.value)}
+					onChange={(e) => handleChange(e)}
 				/>
 				<InputGroup.Append>
 					<Button variant='outline-secondary' onClick={handleClick}>
@@ -60,7 +93,7 @@ export default function GameSearch () {
 					</Button>
 				</InputGroup.Append>
 			</InputGroup>
-			<h1>{gameName} </h1>
+			<List/>
 		</div>
 	);
 }
