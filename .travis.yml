@@ -1,3 +1,5 @@
 language: php
 before_script:
     - composer install
+notifications:
+  slack: ifts16workspace:mGFlFxwbHt8bIJsEL0AdGg5F
