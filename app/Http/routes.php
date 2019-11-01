@@ -11,7 +11,7 @@
 |
 */
 $app->get('/', function () use ($app) {
-    return view('default');
+    return true;
 });
 // games routes
 
