@@ -13,6 +13,7 @@ class Game extends Model
      * @var array
      */
     protected $fillable = [
+        'appid',
         'name'
     ];
 }

@@ -7,6 +7,8 @@ export default function GameSearch () {
 	const [ gameName, setGameName ] = useState('');
 	const [ data, setData ] = useState([]);
 	const [ price, setPrice ] = useState('');
+	const [ gameIdG2a, setGameIdG2a ] = useState('');
+	const [ queryName, setQueryName ] = useState('');
 
 	const handleClick = () => {
 		let replacedName = gameName.replace(/ /g, '+');
@@ -14,14 +16,45 @@ export default function GameSearch () {
 	};
 
 	const handleChange = (e) => {
+		e.preventDefault();
 		setGameName(e.target.value);
 		let replacedName = e.target.value.replace(/ /g, '+');
 		callToG2a(replacedName);
 	}
 
+	const searchSql = () => {
+		let headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+		headers.append('Accept', 'application/json');
+		headers.append('origin', 'x-requested-with');
+		headers.append("Access-Control-Allow-Origin", "*");
+    	headers.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+		headers.append('Origin', 'http://localhost:3000');
+		axios
+			.get(
+				'https://cors-anywhere.herokuapp.com/http://localhost:9001/searchGame?name=' + queryName,
+				{
+					mode: 'cors',
+					credentials: 'include',
+					method: 'GET',
+					headers: headers
+				}
+			)
+			.then((res) => {
+				// let prices = res.data.lowest_price
+				// setPrice(prices);
+				// searchSql();
+				console.log(res.data);
+			});
+	}
+
 	const getPrice = (e) => {
-		setPrice('https://www.g2a.com/marketplace/product/auctions/?id=' + e.target.id);
-		console.log(price);
+		e.preventDefault();
+		//setPrice('https://www.g2a.com/marketplace/product/auctions/?id=' + e.target.id);
+		let nameArr = e.target.name.split(' ');
+		setQueryName(nameArr.slice(0, 2).join(' '));
+		setGameIdG2a(e.target.id);
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		headers.append('Accept', 'application/json');
@@ -40,7 +73,8 @@ export default function GameSearch () {
 			.then((res) => {
 				let prices = res.data.lowest_price
 				setPrice(prices);
-				console.log(price);
+				searchSql();
+				//console.log(res.data);
 			});
 	}
 
@@ -49,7 +83,7 @@ export default function GameSearch () {
 			<div>
 				{
 					data.map(item => (
-					item.name.indexOf('Key') === -1 ? <p><a href='#' id ={item.id} key={item.id} onClick={getPrice}>{item.name}</a></p> : null
+					item.name.indexOf('Key') === -1 ? <p><a href='#' id ={item.id} key={item.id} name={item.name} onClick={getPrice}>{item.name}</a></p> : null
 					))
 				}
 			</div>
@@ -94,6 +128,10 @@ export default function GameSearch () {
 				</InputGroup.Append>
 			</InputGroup>
 			<List/>
+			<h3>{gameIdG2a}</h3>
 		</div>
 	);
 }
+
+// Formato url del juego de steam : https://store.steampowered.com/app/878570/
+// Formato url del juego de g2a : https://www.g2a.com/stick-fight-the-game-steam-key-pc-global-i10000081854001 (es https://www.g2a.com + slug)

@@ -10,6 +10,9 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
+
+use App\Http\Controllers\GamesController;
+
 $app->get('/', function () use ($app) {
     return true;
 });
@@ -17,6 +20,7 @@ $app->get('/', function () use ($app) {
 
 $app->get('games', 'GamesController@showAllGames');
 $app->get('game', 'GamesController@showOneGame');
+$app->get('searchGame', 'GamesController@searchGame');
 $app->delete('game/destroy', 'GamesController@destroyGame');
 $app->post('game/store', 'GamesController@storeGame');
 $app->put('game/update', 'GamesController@updateGame');

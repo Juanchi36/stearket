@@ -27,6 +27,15 @@ class GamesController extends Controller
         return response()->json(['success' => true]); // keeping things simple, no checking
     }
 
+    public function searchGame(Request $request) 
+    { 
+        $name = $request->input('name');
+        
+        return Game::where('name', 'like', '%' . $name . '%')->get();
+
+        
+    }
+
     public function storeGame(Request $request) 
     { // create new game
         $game = new Game;

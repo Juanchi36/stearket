@@ -12,7 +12,11 @@ class CreateGamesTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('games', function (Blueprint $table) {
+            $table->bigInteger('appid');
+            $table->string('name');
+            $table->timestamps();
+        });
     }
 
     /**
