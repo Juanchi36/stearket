@@ -23,7 +23,7 @@ function getData(slug){
 
 function G2aCard(props){
     
-    const {imageUrl, slug, showLinks} = props;console.log(props.showLinks)
+    const {imageUrl, slug, showLinks, price, steamId } = props;console.log(props.price)
     if(imageUrl && !showLinks){
         return (
             <div>
@@ -33,10 +33,9 @@ function G2aCard(props){
                         <Card.Body>
                             <Card.Title>Card Title</Card.Title>
                             <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
+                            Precio: {price}
                             </Card.Text>
-                            <Button href={'https://www.g2a.com' + slug} variant="primary">Go somewhere</Button>
+                            <Button href={'https://www.g2a.com' + slug} variant="primary" target="_blank">Go somewhere</Button>
                         </Card.Body>
                     </Card>
                     <Card style={{ width: '14rem' }}>
@@ -47,7 +46,7 @@ function G2aCard(props){
                             Some quick example text to build on the card title and make up the bulk of
                             the card's content.
                             </Card.Text>
-                            <Button href={'https://www.g2a.com' + slug} variant="primary">Go somewhere</Button>
+                            <Button href={'https://store.steampowered.com/app/' + steamId + '/'} variant="primary" target="_blank">Go somewhere</Button>
                                                         
                         </Card.Body>
                     </Card>

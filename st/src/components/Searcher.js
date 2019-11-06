@@ -16,6 +16,7 @@ class Searcher extends React.Component {
 			slug: '',
 			imageUrl: '',
 			showLinks: true,
+			steamId: '',
 		};
 		this.getPrice = this.getPrice.bind(this)
 		this.handleClick = this.handleClick.bind(this)
@@ -38,7 +39,7 @@ class Searcher extends React.Component {
 					headers: headers
 				}
 			)
-			.then((res) => {console.log(res.data)
+			.then((res) => {//console.log(res.data)
 					let games = res.data.docs
 					this.setState({ data : games })
 				}
@@ -90,7 +91,7 @@ class Searcher extends React.Component {
                 this.setState({
                    	price : prices,
                     queryResult: data
-                }, ()=>console.log(this.state.queryResult[0]))
+                })
 			})
 	}
 
@@ -130,7 +131,7 @@ class Searcher extends React.Component {
     }
     
     render() {
-        const { data, slug, imageUrl, showLinks } = this.state
+        const { data, slug, imageUrl, showLinks, price, steamId } = this.state
         return (
             <div>
                 <InputGroup className='mb-3'>
@@ -156,7 +157,7 @@ class Searcher extends React.Component {
 					}
 					</div>
 				}
-				<G2aCard slug={slug} imageUrl={imageUrl} showLinks={showLinks}/> 
+				<G2aCard slug={slug} imageUrl={imageUrl} showLinks={showLinks} price={price} steamId={878570}/> 
             </div>
         );
     }
