@@ -15,8 +15,11 @@ class Searcher extends React.Component {
 			queryResult: [],
 			slug: '',
 			imageUrl: '',
+			showLinks: true,
 		};
-        this.getPrice = this.getPrice.bind(this)
+		this.getPrice = this.getPrice.bind(this)
+		this.handleClick = this.handleClick.bind(this)
+		this.handleChange = this.handleChange.bind(this)
     }
 
     callToG2a(name){
@@ -43,13 +46,16 @@ class Searcher extends React.Component {
     }
 
     handleClick(){
-        const { gameName } = this.state;
-        let replacedName = gameName.replace(/ /g, '+');
-		this.callToG2a(replacedName);
+        // const { gameName } = this.state;
+        // let replacedName = gameName.replace(/ /g, '+');
+		// this.callToG2a(replacedName);
+		this.setState({ showLinks: true })
+		//this.refs.searchInput.value = '';
 	}
 	
     handleChange(e){
-        e.preventDefault();
+		e.preventDefault();
+		this.setState({ showLinks: true});
 		this.setState({gameName: e.target.value});
 		let replacedName = e.target.value.replace(/ /g, '+');
 		this.callToG2a(replacedName); 
@@ -97,7 +103,8 @@ class Searcher extends React.Component {
 		this.setState({ slug : slug, imageUrl : image })
 		let nameArr = e.target.name.split(' ');
         this.setState({ queryName : nameArr.slice(0, 2).join(' ') });
-        this.setState({ gameIdG2a : e.target.id });
+		this.setState({ gameIdG2a : e.target.id });
+		this.setState({ showLinks: false});
 		
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
@@ -123,30 +130,33 @@ class Searcher extends React.Component {
     }
     
     render() {
-        const { data, slug, imageUrl } = this.state
+        const { data, slug, imageUrl, showLinks } = this.state
         return (
             <div>
                 <InputGroup className='mb-3'>
                     <FormControl
                         placeholder='Nombre del juego'
                         aria-label='Recipient&#39;s username'
-                        aria-describedby='basic-addon2'
+						aria-describedby='basic-addon2'
+						ref='searchInput'
                         onChange={(e) => this.handleChange(e)}
                     />
                     <InputGroup.Append>
                         <Button variant='outline-secondary' onClick={this.handleClick}>
-                            Buscar
+                            Volver
                         </Button>
                     </InputGroup.Append>
                 </InputGroup>
-				<div>
-				{
-					data.map(item => (
-					item.name.indexOf('Key') === -1 ? <p><a href="#" id ={item.id} key={item.id} name={item.name} title={item.slug+ ' '+item.smallImage} onClick={this.getPrice} >{item.name}</a></p> : null
-					))
+				{ showLinks && 
+					<div>
+					{
+						data.map(item => (
+						item.name.indexOf('Key') === -1 ? <p key={item.id}><a href="#" id ={item.id} name={item.name} title={item.slug+ ' '+item.smallImage} onClick={this.getPrice} >{item.name}</a></p> : null
+						))
+					}
+					</div>
 				}
-			    </div>
-                <G2aCard slug={slug} imageUrl={imageUrl}/> 
+				<G2aCard slug={slug} imageUrl={imageUrl} showLinks={showLinks}/> 
             </div>
         );
     }
