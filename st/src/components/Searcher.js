@@ -16,7 +16,8 @@ class Searcher extends React.Component {
 			slug: '',
 			imageUrl: '',
 			showLinks: true,
-			steamId: '',
+            steamId: '',
+            gameDescr: ''
 		};
 		this.getPrice = this.getPrice.bind(this)
 		this.handleClick = this.handleClick.bind(this)
@@ -39,7 +40,7 @@ class Searcher extends React.Component {
 					headers: headers
 				}
 			)
-			.then((res) => {//console.log(res.data)
+			.then((res) => {console.log(res.data)
 					let games = res.data.docs
 					this.setState({ data : games })
 				}
@@ -84,18 +85,17 @@ class Searcher extends React.Component {
 				}
 			)
 			.then((res) => {
-                let prices = res.data.lowest_price
+                let prices = res.data.lowest_price;//console.log('precios ',res.data)
                 let data = res.data; 
-				const { price, queryResult } = this.state
+				//const { price, queryResult } = this.state
 			
                 this.setState({
-                   	price : prices,
-                    queryResult: data
+                   	queryResult: data
                 })
 			})
 	}
 
-	getPrice(e){//console.log(e.target.title)
+	getPrice(e){//console.log(e.target.name)
 		e.preventDefault();
 		
 		let data = e.target.title.split(" ");
@@ -105,7 +105,8 @@ class Searcher extends React.Component {
 		let nameArr = e.target.name.split(' ');
         this.setState({ queryName : nameArr.slice(0, 2).join(' ') });
 		this.setState({ gameIdG2a : e.target.id });
-		this.setState({ showLinks: false});
+        this.setState({ showLinks: false});
+        this.setState({ gameDescr: e.target.name});
 		
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
@@ -125,13 +126,13 @@ class Searcher extends React.Component {
 			.then((res) => {
                 let prices = res.data.lowest_price;
                 this.setState({ price: prices })
-				this.searchSql();
+				this.searchSql();//console.log(res.data)
 			});
 			
     }
     
     render() {
-        const { data, slug, imageUrl, showLinks, price, steamId } = this.state
+        const { data, slug, imageUrl, showLinks, price, steamId, gameDescr } = this.state
         return (
             <div>
                 <InputGroup className='mb-3'>
@@ -157,10 +158,12 @@ class Searcher extends React.Component {
 					}
 					</div>
 				}
-				<G2aCard slug={slug} imageUrl={imageUrl} showLinks={showLinks} price={price} steamId={878570}/> 
+				<G2aCard slug={slug} imageUrl={imageUrl} showLinks={showLinks} price={price} steamId={878570} gameDescr={gameDescr}/> 
             </div>
         );
     }
   }
 
   export default Searcher;
+
+  
