@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { InputGroup, Button, FormControl } from 'react-bootstrap';
+import G2aCard from './G2aCard';
 
 class Searcher extends React.Component {
     constructor(props) {
@@ -11,8 +12,10 @@ class Searcher extends React.Component {
             price: [],
             gameIdG2a: '',
             queryName: '',
-            queryResult: []
-        };
+			queryResult: [],
+			slug: '',
+			imageUrl: '',
+		};
         this.getPrice = this.getPrice.bind(this)
     }
 
@@ -32,7 +35,7 @@ class Searcher extends React.Component {
 					headers: headers
 				}
 			)
-			.then((res) => {//console.log(res.data)
+			.then((res) => {console.log(res.data)
 					let games = res.data.docs
 					this.setState({ data : games })
 				}
@@ -75,7 +78,7 @@ class Searcher extends React.Component {
 			)
 			.then((res) => {
                 let prices = res.data.lowest_price
-                let data = res.data; //console.log(res.data)
+                let data = res.data; 
 				const { price, queryResult } = this.state
 			
                 this.setState({
@@ -85,12 +88,15 @@ class Searcher extends React.Component {
 			})
 	}
 
-	getPrice(e){
-        e.preventDefault();
-		//setPrice('https://www.g2a.com/marketplace/product/auctions/?id=' + e.target.id);
-		let nameArr = e.target.name.split(' ');//console.log(nameArr)
+	getPrice(e){//console.log(e.target.title)
+		e.preventDefault();
+		
+		let data = e.target.title.split(" ");
+		let slug = data[0];
+        let image = data[1];
+		this.setState({ slug : slug, imageUrl : image })
+		let nameArr = e.target.name.split(' ');
         this.setState({ queryName : nameArr.slice(0, 2).join(' ') });
-        
         this.setState({ gameIdG2a : e.target.id });
 		
 		let headers = new Headers();
@@ -112,13 +118,12 @@ class Searcher extends React.Component {
                 let prices = res.data.lowest_price;
                 this.setState({ price: prices })
 				this.searchSql();
-				//console.log(res.data);
 			});
 			
     }
     
     render() {
-        const { data } = this.state
+        const { data, slug, imageUrl } = this.state
         return (
             <div>
                 <InputGroup className='mb-3'>
@@ -134,14 +139,14 @@ class Searcher extends React.Component {
                         </Button>
                     </InputGroup.Append>
                 </InputGroup>
-                <div>
+				<div>
 				{
 					data.map(item => (
-					item.name.indexOf('Key') === -1 ? <p><a href='#' id ={item.id} key={item.id} name={item.name} onClick={this.getPrice}>{item.name}</a></p> : null
+					item.name.indexOf('Key') === -1 ? <p><a href="#" id ={item.id} key={item.id} name={item.name} title={item.slug+ ' '+item.smallImage} onClick={this.getPrice} >{item.name}</a></p> : null
 					))
 				}
 			    </div>
-                
+                <G2aCard slug={slug} imageUrl={imageUrl}/> 
             </div>
         );
     }
