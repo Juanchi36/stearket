@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputGroup, Button, FormControl } from 'react-bootstrap';
 import axios from 'axios';
 import { func } from 'prop-types';
@@ -9,6 +9,8 @@ export default function GameSearch () {
 	const [ price, setPrice ] = useState('');
 	const [ gameIdG2a, setGameIdG2a ] = useState('');
 	const [ queryName, setQueryName ] = useState('');
+	const [ queryResult, setQueryResult] = useState([]);
+	
 
 	const handleClick = () => {
 		let replacedName = gameName.replace(/ /g, '+');
@@ -22,7 +24,8 @@ export default function GameSearch () {
 		callToG2a(replacedName);
 	}
 
-	const searchSql = () => {
+	const SearchSql = () => {
+		
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		headers.append('Accept', 'application/json');
@@ -31,9 +34,10 @@ export default function GameSearch () {
     	headers.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
 		headers.append('Origin', 'http://localhost:3000');
+		
 		axios
 			.get(
-				'https://cors-anywhere.herokuapp.com/http://localhost:9001/searchGame?name=' + queryName,
+				'http://localhost:9001/searchGame?name=' + queryName,
 				{
 					mode: 'cors',
 					credentials: 'include',
@@ -45,8 +49,12 @@ export default function GameSearch () {
 				// let prices = res.data.lowest_price
 				// setPrice(prices);
 				// searchSql();
-				console.log(res.data);
+				//console.log(res.data);
+				setQueryResult(res.data);
 			});
+			
+		
+		console.log (queryResult);
 	}
 
 	const getPrice = (e) => {
@@ -73,9 +81,10 @@ export default function GameSearch () {
 			.then((res) => {
 				let prices = res.data.lowest_price
 				setPrice(prices);
-				searchSql();
+				
 				//console.log(res.data);
 			});
+			SearchSql();
 	}
 
 	const List = () => {
@@ -128,7 +137,7 @@ export default function GameSearch () {
 				</InputGroup.Append>
 			</InputGroup>
 			<List/>
-			<h3>{gameIdG2a}</h3>
+			<h3>{queryResult.name}</h3>
 		</div>
 	);
 }
