@@ -16,7 +16,7 @@ class Searcher extends React.Component {
         this.getPrice = this.getPrice.bind(this)
     }
 
-    callToG2a(name){//console.log('estos son games'+name)
+    callToG2a(name){
         let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		headers.append('Accept', 'application/json');
@@ -32,28 +32,28 @@ class Searcher extends React.Component {
 					headers: headers
 				}
 			)
-			.then((res) => {console.log(res.data)
-				let games = res.data.docs
-				this.setState({ data : games })
-			},(e)=>{console.log('esto es e '+e);
-                //this.setState({ data : games })
-            });    
+			.then((res) => {//console.log(res.data)
+					let games = res.data.docs
+					this.setState({ data : games })
+				}
+			);    
     }
 
     handleClick(){
         const { gameName } = this.state;
         let replacedName = gameName.replace(/ /g, '+');
 		this.callToG2a(replacedName);
-    }
+	}
+	
     handleChange(e){
         e.preventDefault();
 		this.setState({gameName: e.target.value});
-		let replacedName = e.target.value.replace(/ /g, '+');//console.log(replacedName)
+		let replacedName = e.target.value.replace(/ /g, '+');
 		this.callToG2a(replacedName); 
     }
 
     searchSql(){
-        const { queryName } = this.state;//console.log(queryName)
+        const { queryName } = this.state;
         let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		headers.append('Accept', 'application/json');
@@ -75,24 +75,17 @@ class Searcher extends React.Component {
 			)
 			.then((res) => {
                 let prices = res.data.lowest_price
-                let data = res.data
-                const { price, queryResult } = this.state
-                //price.push({ price: prices });
-                queryResult.push({ queryResult: data });
-                //this.setState(price);
-                this.setState(queryResult);
-                // this.setState({
-                //     price : prices,
-                //     queryResult: data
-                // })
-				// setPrice(prices);
-				// searchSql();
-				//console.log(res.data);
-				//setQueryResult(res.data);
-			});console.log(this.state.queryResult)
+                let data = res.data; //console.log(res.data)
+				const { price, queryResult } = this.state
+			
+                this.setState({
+                   	price : prices,
+                    queryResult: data
+                }, ()=>console.log(this.state.queryResult[0]))
+			})
 	}
 
-    getPrice(e){
+	getPrice(e){
         e.preventDefault();
 		//setPrice('https://www.g2a.com/marketplace/product/auctions/?id=' + e.target.id);
 		let nameArr = e.target.name.split(' ');//console.log(nameArr)
@@ -118,10 +111,10 @@ class Searcher extends React.Component {
 			.then((res) => {
                 let prices = res.data.lowest_price;
                 this.setState({ price: prices })
-				
+				this.searchSql();
 				//console.log(res.data);
 			});
-			this.searchSql();
+			
     }
     
     render() {
