@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { InputGroup, Button, FormControl } from 'react-bootstrap';
 import G2aCard from './G2aCard';
+import SteamCard from './SteamCard';
 
 class Searcher extends React.Component {
     constructor(props) {
@@ -17,11 +18,17 @@ class Searcher extends React.Component {
 			imageUrl: '',
 			showLinks: true,
             steamId: '',
-            gameDescr: ''
+            gameDescr: '',
+            steamImageUrl: '',
+            steamPrice: '',
+            steamSlug: '',
+            steamGameDescr: '',
 		};
 		this.getPrice = this.getPrice.bind(this)
 		this.handleClick = this.handleClick.bind(this)
-		this.handleChange = this.handleChange.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.searchSql = this.searchSql.bind(this)
+        this.callSteam = this.callSteam.bind(this)
     }
 
     callToG2a(name){
@@ -65,8 +72,10 @@ class Searcher extends React.Component {
 
     searchSql(){
         const { queryName } = this.state;
+        const query = queryName.replace(/\s/g, '%20').toLowerCase();
+        
         let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
+        headers.append('Content-Type', 'application/json');
 		headers.append('Accept', 'application/json');
 		headers.append('origin', 'x-requested-with');
 		headers.append("Access-Control-Allow-Origin", "*");
@@ -76,7 +85,7 @@ class Searcher extends React.Component {
 		
 		axios
 			.get(
-				'http://localhost:9001/searchGame?name=' + queryName,
+				'http://localhost:9001/searchGame?name=' + query,
 				{
 					mode: 'cors',
 					credentials: 'include',
@@ -85,15 +94,56 @@ class Searcher extends React.Component {
 				}
 			)
 			.then((res) => {
-                let prices = res.data.lowest_price;//console.log('precios ',res.data)
-                let data = res.data; 
-				//const { price, queryResult } = this.state
-			
-                this.setState({
-                   	queryResult: data
-                })
-			})
-	}
+                let data
+                if(Array.isArray(res.data)){console.log(res.data.length)
+                    data = res.data[res.data.length -1];console.log(data)
+                }else{
+                    data = res.data
+                }
+                
+                this.setState({ queryResult: data });//console.log(this.state.queryResult)
+                this.callSteam()
+            })
+            
+    }
+    
+    callSteam(){
+        let headers = new Headers();
+        if(this.state.queryResult){
+            let id = this.state.queryResult.appid;
+        
+		headers.append('Content-Type', 'application/json');
+		headers.append('Accept', 'application/json');
+
+        headers.append('Origin', 'http://localhost:3000');
+        
+		axios
+			.get(
+				'https://cors-anywhere.herokuapp.com/https://store.steampowered.com/api/appdetails?appids='+ this.state.queryResult.appid +'&cc=ars',
+				{
+					mode: 'cors',
+					credentials: 'include',
+					method: 'GET',
+					headers: headers
+				}
+			)
+            .then((res) => {console.log (res.data)
+                let price
+                if(res.data[id].data.price_overview){
+                    let price = res.data[id].data.price_overview.final / 100
+                    this.setState({ steamPrice: price })
+                }
+                this.setState({ steamImageUrl: res.data[id].data.header_image })
+                this.setState({ steamGameDescr: res.data[id].data.name })
+                this.setState({ steamSlug: id })
+                // console.log(id)
+                // console.log(price)
+                //console.log(Object.keys(res.data))
+
+            });
+
+        }
+            }
 
 	getPrice(e){//console.log(e.target.name)
 		e.preventDefault();
@@ -126,13 +176,13 @@ class Searcher extends React.Component {
 			.then((res) => {
                 let prices = res.data.lowest_price;
                 this.setState({ price: prices })
-				this.searchSql();//console.log(res.data)
+				this.searchSql();
 			});
 			
     }
     
     render() {
-        const { data, slug, imageUrl, showLinks, price, steamId, gameDescr } = this.state
+        const { data, slug, imageUrl, showLinks, price, steamId, gameDescr, steamSlug, steamGameDescr, steamImageUrl, steamPrice } = this.state
         return (
             <div>
                 <InputGroup className='mb-3'>
@@ -153,12 +203,15 @@ class Searcher extends React.Component {
 					<div>
 					{
 						data.map(item => (
-						item.name.indexOf('Key') === -1 ? <p key={item.id}><a href="#" id ={item.id} name={item.name} title={item.slug+ ' '+item.smallImage} onClick={this.getPrice} >{item.name}</a></p> : null
+                            <p key={item.id}><a href="#" id ={item.id} name={item.name} title={item.slug+ ' '+item.smallImage} onClick={this.getPrice} >{item.name}</a></p>
 						))
 					}
 					</div>
-				}
-				<G2aCard slug={slug} imageUrl={imageUrl} showLinks={showLinks} price={price} steamId={878570} gameDescr={gameDescr}/> 
+                }
+                <div style={{ display: 'inline-flex', width: '100%', justifyContent: 'space-around' }}>
+				<G2aCard slug={slug} imageUrl={imageUrl} showLinks={showLinks} price={price} steamId={878570} gameDescr={gameDescr}/>
+                <SteamCard slug={steamSlug} imageUrl={steamImageUrl} showLinks={showLinks} price={steamPrice} steamId={878570} gameDescr={steamGameDescr}/> 
+                </div> 
             </div>
         );
     }

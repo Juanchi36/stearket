@@ -31,7 +31,7 @@ class GamesController extends Controller
     { 
         $name = $request->input('name');
         
-        return Game::where('name', 'like', '%' . $name . '%')->get();
+        return Game::where('name', 'like', $name . '%')->get();
 
         
     }
