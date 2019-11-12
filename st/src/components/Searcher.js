@@ -116,6 +116,8 @@ class Searcher extends React.Component {
 		headers.append('Accept', 'application/json');
 
         headers.append('Origin', 'http://localhost:3000');
+                    
+        headers.append('Set-Cookie','steamCountry=7C659907b7b15177e9d66acd22e0f086f7')
         
 		axios
 			.get(
@@ -124,13 +126,14 @@ class Searcher extends React.Component {
 					mode: 'cors',
 					credentials: 'include',
 					method: 'GET',
-					headers: headers
+                    headers: headers,
+                    
 				}
 			)
             .then((res) => {console.log (res.data)
                 let price
                 if(res.data[id].data.price_overview){
-                    let price = res.data[id].data.price_overview.final / 100
+                    let price = (res.data[id].data.price_overview.final / 100)*16
                     this.setState({ steamPrice: price })
                 }
                 this.setState({ steamImageUrl: res.data[id].data.header_image })
