@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableGames extends Migration
+class CreateSearch extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,15 @@ class CreateTableGames extends Migration
      */
     public function up()
     {
-        Schema::create('games', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
+        Schema::create('search', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('userEmail');
+            $table->string('gameName');
             $table->timestamps();
         });
-
-        
     }
-
+    
+    
     /**
      * Reverse the migrations.
      *
@@ -28,6 +28,6 @@ class CreateTableGames extends Migration
      */
     public function down()
     {
-        Schema::drop('games');
+        Schema::drop('search');
     }
 }

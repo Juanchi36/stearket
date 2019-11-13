@@ -24,4 +24,5 @@ $app->get('searchGame', 'GamesController@searchGame');
 $app->delete('game/destroy', 'GamesController@destroyGame');
 $app->post('game/store', 'GamesController@storeGame');
 $app->put('game/update', 'GamesController@updateGame');
+$app->post('search', 'SearchController@storeSearch');
 

@@ -24,6 +24,7 @@ class Searcher extends React.Component {
             steamPrice: '',
             steamSlug: '',
             steamGameDescr: '',
+            gameLogin: '',
 		};
 		this.getPrice = this.getPrice.bind(this)
 		this.handleClick = this.handleClick.bind(this)
@@ -31,6 +32,13 @@ class Searcher extends React.Component {
         this.searchSql = this.searchSql.bind(this)
         this.callSteam = this.callSteam.bind(this)
     }
+
+    // passProps(target, payload) {
+    //     const newState = Object.assign(this.state, {});
+    //     // or const newState = {...this.state}; if plugin-proposal-object-rest-spread is used
+    //     newState[target] = payload;
+    //     this.setState(newState);
+    // }
 
     callToG2a(name){
         let headers = new Headers();
@@ -150,8 +158,8 @@ class Searcher extends React.Component {
             }
 
 	getPrice(e){//console.log(e.target.name)
-		e.preventDefault();
-		
+        e.preventDefault();
+        
 		let data = e.target.title.split(" ");
 		let slug = data[0];
         let image = data[1];
@@ -160,7 +168,8 @@ class Searcher extends React.Component {
         this.setState({ queryName : nameArr.slice(0, 2).join(' ') });
 		this.setState({ gameIdG2a : e.target.id });
         this.setState({ showLinks: false});
-        this.setState({ gameDescr: e.target.name});
+        this.setState({ gameDescr: e.target.name });
+        this.setState({ gameLogin : e.target.name });
 		
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
@@ -182,7 +191,7 @@ class Searcher extends React.Component {
                 this.setState({ price: prices })
 				this.searchSql();
 			});
-			
+		//console.log(this.state.loginState.userEmail)	
     }
     
     render() {
@@ -190,7 +199,9 @@ class Searcher extends React.Component {
         const inputStyle = {width: '80%', marginLeft: '10%', marginTop: '3%'}
         return (
             <div>
-                <Login />
+                <Login game ={this.state.gameLogin}
+                // state={this.state.childA} handleState={this.passProps} 
+                />
                 <InputGroup className='mb-3' style={inputStyle}>
                     <FormControl
                         placeholder='Busca un juego'
