@@ -3,6 +3,7 @@ import axios from 'axios';
 import { InputGroup, Button, FormControl } from 'react-bootstrap';
 import G2aCard from './G2aCard';
 import SteamCard from './SteamCard';
+import Login from './Login';
 
 class Searcher extends React.Component {
     constructor(props) {
@@ -185,19 +186,21 @@ class Searcher extends React.Component {
     }
     
     render() {
-        const { data, slug, imageUrl, showLinks, price, steamId, gameDescr, steamSlug, steamGameDescr, steamImageUrl, steamPrice } = this.state
+        const { data, slug, imageUrl, showLinks, price, steamId, gameDescr, steamSlug, steamGameDescr, steamImageUrl, steamPrice } = this.state;
+        const inputStyle = {width: '80%', marginLeft: '10%', marginTop: '3%'}
         return (
             <div>
-                <InputGroup className='mb-3'>
+                <Login />
+                <InputGroup className='mb-3' style={inputStyle}>
                     <FormControl
-                        placeholder='Nombre del juego'
+                        placeholder='Busca un juego'
                         aria-label='Recipient&#39;s username'
 						aria-describedby='basic-addon2'
 						ref='searchInput'
                         onChange={(e) => this.handleChange(e)}
                     />
                     <InputGroup.Append>
-                        <Button variant='outline-secondary' onClick={this.handleClick}>
+                        <Button variant='ligth' onClick={this.handleClick} style={{marginTop: '6px'}}>
                             Volver
                         </Button>
                     </InputGroup.Append>
@@ -206,7 +209,7 @@ class Searcher extends React.Component {
 					<div>
 					{
 						data.map(item => (
-                            <p key={item.id}><a href="#" id ={item.id} name={item.name} title={item.slug+ ' '+item.smallImage} onClick={this.getPrice} >{item.name}</a></p>
+                            <p key={item.id} style={{textAlign: 'left', marginLeft: '10%'}}><a href="#" id ={item.id} name={item.name} title={item.slug+ ' '+item.smallImage} onClick={this.getPrice} >{item.name}</a></p>
 						))
 					}
 					</div>
