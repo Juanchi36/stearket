@@ -18,20 +18,22 @@ class Login extends Component {
     render () {
         // const mongoose = require('mongoose');
         // const Search = require('../searchLogSchema');
-        const { user, signOut, signInWithGoogle, game } = this.props;console.log(this.props);
-        if(game){
+        const { user, signOut, signInWithGoogle, game } = this.props;
+        if(game){console.log('viene game: ', game + '  era game');
             let headers = new Headers();
             headers.append('Content-Type', 'application/json');
             headers.append('Accept', 'application/json');
             headers.append('origin', 'x-requested-with');
             headers.append("Access-Control-Allow-Origin", "*");
             headers.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            headers.append('X-Requested-With', 'XMLHttpRequest');
 
             headers.append('Origin', 'http://localhost:3000');
             //http://localhost:9001/search?userEmail=pepe@gmail.com&gameName=halo
+            let url = 'https://cors-anywhere.herokuapp.com/http://localhost:9001/search?userEmail=cacho@gmail.com&gameName=Monster University';
             axios
                 .post(
-                    'http://localhost:9001/search?userEmail=' + user.email + '&gameName=' + game,
+                    url,
                     {
                         mode: 'cors',
                         credentials: 'include',
@@ -41,8 +43,10 @@ class Login extends Component {
                 )
                 .then((res) => {
                     console.log(res.data)
+                },(err)=>{
+                    console.log(err)
                 })
-        }
+        }else{console.log('no viene game');}
         
         return (
             <nav className='blue darken-4'>

@@ -22,7 +22,29 @@ function getSteam () {
 		req.end();
 	});
 }
+function postSearch () {
+	return new Promise(function (resolve, reject) {
+		var options = {
+			hostname: 'localhost',
+			port: 80,
+			path: '/?userEmail=pepe@gmail.com&gameName=MonsterHight',
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' }
+		};
 
+		var req = http.request(options, function (res) {
+			res.setEncoding('utf8');
+			res.on('data', function (data) {
+				resolve(data); // I can't parse it because, it's a string. why?
+			});
+		});
+		req.on('error', function (e) {
+			reject('problem with request: ' + e.message);
+		});
+		req.end();
+	});
+}
 module.exports = {
-	getSteam: getSteam
+	getSteam: getSteam,
+	postSearch: postSearch
 };
