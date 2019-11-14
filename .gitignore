@@ -1,3 +1,5 @@
 /vendor
 .env
 /public/js/node_modules
+st/node_modules
+/nodejs-server-generated/node_modules

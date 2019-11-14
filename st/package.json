@@ -6,6 +6,7 @@
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "cors": "^2.8.5",
+    "cors-anywhere": "^0.4.1",
     "firebase": "^7.3.0",
     "mongoose": "^5.7.10",
     "react": "^16.10.2",

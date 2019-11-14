@@ -1,0 +1,77 @@
+openapi: 3.0.1
+info:
+  title: API REST Node
+  description: API REST Node
+  termsOfService: ''
+  contact:
+    email: juanmartingon@hotmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: ''
+servers:
+  - url: 'http://localhost:8081'
+  - url: ''
+tags:
+  - name: search
+    description: Busqueda realizada por un usuario
+    externalDocs:
+      description: ''
+      url: ''
+paths:
+  /search:
+    post:
+      tags:
+        - search
+      summary: Envío de busquedas
+      operationId: postSearch
+      parameters:
+        - name: userEmail
+          in: query
+          description: email del usuario
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            items:
+              type: string
+        - name: gameName
+          in: query
+          description: juego buscado
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            items:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Search'
+        '405':
+          description: Invalid input
+          content: {}
+components:
+  schemas:
+    Search:
+      type: object
+      properties:
+        userEmail:
+          type: string
+        gameName:
+          type: string
+      example:
+        userEmail: pepe@gmail.com
+        gameName: Mario Kart
+      xml:
+        name: Search
