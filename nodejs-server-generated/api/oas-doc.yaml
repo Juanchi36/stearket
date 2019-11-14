@@ -23,6 +23,80 @@ tags:
       url: ''
 paths:
   /search:
+    #get:
+    #  tags:
+    #    - search
+    #  summary: Obtener busquedas
+    #  operationId: getSearch 
+    #  parameters:
+    #    - name: userEmail
+    #      in: query
+    #      description: email del usuario
+    #      required: true
+    #      style: form
+    #      explode: true
+    #      schema:
+    #        type: string
+    #        items:
+    #          type: string
+    #  responses:
+    #    '200':
+    #      description: successful operation
+    #      content:
+    #        application/json:
+    #          schema:
+    #            type: object
+    #            items:
+    #              $ref: '#/components/schemas/Search'
+    #    '405':
+    #      description: Invalid input
+    #      content: {}
+    get:
+      tags:
+        - search
+      summary: Obtener busquedas
+      description: Obtener busquedas
+      operationId: getSearch
+      parameters:
+        - name: userEmail
+          in: query
+          description: email del usuario
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            items:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            # application/xml:
+            #   schema:
+            #     type: array
+            #     items:
+            #       $ref: '#/components/schemas/Counter'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Search'
+              #example:
+              #    _id: "5dbc7cec1fa73877d5e4c7c7"
+              #    egmiid : 17
+              #    ci: 350
+              #    co: 10
+              #    jp: 200
+              #    jj: 10
+              #    drop: 0
+              #    cc: 0
+              #    fecha: "2019-11-04T18:15:32.673Z"  
+              #    sala_id: 7
+              #    __v: 0
+        '400':
+          description: Invalid status value
+          content: {}
     post:
       tags:
         - search

@@ -211,9 +211,9 @@ class Searcher extends React.Component {
                         onChange={(e) => this.handleChange(e)}
                     />
                     <InputGroup.Append>
-                        <Button variant='ligth' onClick={this.handleClick} style={{marginTop: '6px'}}>
+                        <a className='waves-effect waves-teal btn-flat' onClick={this.handleClick} style={{marginTop: '6px'}}>
                             Volver
-                        </Button>
+                        </a>
                     </InputGroup.Append>
                 </InputGroup>
 				{ showLinks && 

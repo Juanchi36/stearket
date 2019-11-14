@@ -5,21 +5,21 @@ import 'firebase/auth';
 import firebaseConfig from '../firebase';
 import '../styles/Login.css';
 import axios from 'axios';
+import ModalHistory from './ModalHistory'; 
 
 const firebaseApp = firebase. initializeApp(firebaseConfig);
 class Login extends Component {
 
     render () {
-        
         const { user, signOut, signInWithGoogle, game } = this.props;
-        if(game){
-            let urls = 'http://localhost:8081/search?userEmail=' + user.email + '&gameName=' + game;console.log(urls)
+        if(game && user){
+            let post = 'http://localhost:8081/search?userEmail=' + user.email + '&gameName=' + game;
             
             axios({
                 method: 'post', 
-                url: urls,
-                
-              })
+                url: post,
+            })
+           
         }
         
         return (
@@ -41,6 +41,8 @@ class Login extends Component {
                             alt='user img' />
                             </li>
                             <li className='user-name'>{user.displayName}</li>
+                            
+                            <ModalHistory user={user}/>
                         </ul>
                         
                         : <span></span>
