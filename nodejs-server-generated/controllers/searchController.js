@@ -32,7 +32,7 @@ module.exports.getSearch = function getSearch(req, res, next) {
   
   mongoose.connect('mongodb://127.0.0.1:27017/searches', { useNewUrlParser: true, useUnifiedTopology: true }).then(
           () => {
-            Search.find({userEmail:req.query.userEmail}, function(err, searches) {
+            Search.find({userEmail:req.query.userEmail}).sort({ $natural: -1 }).limit(7).exec(function(err, searches) {
               if (err) res.status(400).send({err});
               //index.takeResponBody(counters);
               res.status(200).send(searches)

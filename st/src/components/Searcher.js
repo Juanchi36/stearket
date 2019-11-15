@@ -33,13 +33,6 @@ class Searcher extends React.Component {
         this.callSteam = this.callSteam.bind(this)
     }
 
-    // passProps(target, payload) {
-    //     const newState = Object.assign(this.state, {});
-    //     // or const newState = {...this.state}; if plugin-proposal-object-rest-spread is used
-    //     newState[target] = payload;
-    //     this.setState(newState);
-    // }
-
     callToG2a(name){
         let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
@@ -64,12 +57,8 @@ class Searcher extends React.Component {
     }
 
     handleClick(){
-        // const { gameName } = this.state;
-        // let replacedName = gameName.replace(/ /g, '+');
-		// this.callToG2a(replacedName);
-		this.setState({ showLinks: true })
-		//this.refs.searchInput.value = '';
-	}
+        this.setState({ showLinks: true })
+    }
 	
     handleChange(e){
 		e.preventDefault();
@@ -104,8 +93,8 @@ class Searcher extends React.Component {
 			)
 			.then((res) => {
                 let data
-                if(Array.isArray(res.data)){console.log(res.data.length)
-                    data = res.data[res.data.length -1];console.log(data)
+                if(Array.isArray(res.data)){//console.log(res.data.length)
+                    data = res.data[res.data.length -1];//console.log(data)
                 }else{
                     data = res.data
                 }
@@ -129,11 +118,11 @@ class Searcher extends React.Component {
         headers.append('Set-Cookie','steamCountry=7C659907b7b15177e9d66acd22e0f086f7')
         
         const url = 'https://cors-anywhere.herokuapp.com/https://store.steampowered.com/api/appdetails?appids='+ this.state.queryResult.appid +'&cc=ars';
-        const url2 = 'http://localhost:8010/proxy/api/appdetails?appids='+ this.state.queryResult.appid +'&cc=ars';
+        const url2 = 'http://localhost:8011/proxy/api/appdetails?appids='+ id +'&cc=ars';
 
 		axios
 			.get(
-				url,
+				url2,
 				{
 					mode: 'cors',
 					credentials: 'include',
@@ -179,7 +168,7 @@ class Searcher extends React.Component {
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		headers.append('Accept', 'application/json');
-
+        //'https://cors-anywhere.herokuapp.com/https://www.g2a.com/marketplace/product/auctions/?id=' + e.target.id,
 		headers.append('Origin', 'http://localhost:3000');
 		axios
 			.get(
@@ -191,7 +180,7 @@ class Searcher extends React.Component {
 					headers: headers
 				}
 			)
-			.then((res) => {
+			.then((res) => {//console.log(res.data)
                 let prices = res.data.lowest_price;
                 this.setState({ price: prices })
 				this.searchSql();

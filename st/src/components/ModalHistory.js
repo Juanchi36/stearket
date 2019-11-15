@@ -15,7 +15,7 @@ class ModalHistory extends Component {
     componentDidMount(){
         const { user } = this.props;
         
-        if(user){ console.log(user);
+        if(user){ //console.log(user);
             
             let get = 'http://localhost:8081/search?userEmail=' + user.email;
                         
@@ -24,7 +24,7 @@ class ModalHistory extends Component {
                 url: get,
                 
               }).then((res) =>{
-                console.log(res.data)
+                //console.log(res.data)
                 this.setState({ history: res.data })
               }).then((err)=>{
                   console.log(err)

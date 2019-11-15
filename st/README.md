@@ -29,3 +29,14 @@ Servidor API nodejs
 
 4. 
 En navegador (Chrome) extensión instalada y corriendo ----> Moesif Orign & CORS Changer
+
+5. 
+Servidor para CORS
+
+    cd steartek/st
+    npm install -g local-cors-proxy
+    lcp --proxyUrl https://www.g2a.com
+    lcp --proxyUrl https://store.steampowered.com --port 8011
+
+
+

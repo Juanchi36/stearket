@@ -8,6 +8,7 @@
     "cors": "^2.8.5",
     "cors-anywhere": "^0.4.1",
     "firebase": "^7.3.0",
+    "local-cors-proxy": "^1.0.2",
     "materialize-css": "^1.0.0",
     "mongoose": "^5.7.10",
     "react": "^16.10.2",

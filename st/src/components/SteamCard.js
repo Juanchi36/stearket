@@ -2,33 +2,14 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 
-// function getData(slug){
-//     // axios
-// 	// 		.get(
-// 	// 			'https://www.g2a.com/' + slug,
-// 	// 			{
-// 	// 				mode: 'cors',
-// 	// 				credentials: 'include',
-// 	// 				method: 'GET',
-// 	// 				headers: headers
-// 	// 			}
-// 	// 		)
-// 	// 		.then((res) => {
-// 	// 			let prices = res.data.lowest_price
-// 	// 			setPrice(prices);
-				
-// 	// 			//console.log(res.data);
-// 	// 		});
-// }
-
 function SteamCard(props){
     
-    const {imageUrl, slug, showLinks, price, steamId, gameDescr } = props;console.log(price)
-    if(imageUrl && !showLinks){
+    const {imageUrl, slug, showLinks, price, steamId, gameDescr } = props;//console.log(price)
+    if(gameDescr && !showLinks){
         return (
             <div>
-                <Card style={{ width: '14rem' }}>
-                        <Card.Img variant="top" src={imageUrl}/>
+                <Card style={{ width: '20rem', textAlign: '-webkit-center', backgroundColor: '#8080806b' }}>
+                        <Card.Img variant="top" src={imageUrl} style={{ width: '60%', marginTop: '5px'}}/>
                         <Card.Body>
                             <Card.Title>{gameDescr}</Card.Title>
                             <Card.Text>
