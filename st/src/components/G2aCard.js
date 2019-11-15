@@ -35,7 +35,7 @@ function G2aCard(props){
                             <Card.Text>
                             Precio: {price}
                             </Card.Text>
-                            <Button href={'https://www.g2a.com' + slug} variant="primary" target="_blank">Comprar en G2a</Button>
+                            <Button href={'https://www.g2a.com' + slug} variant="primary" target="_blank">Ir a G2a</Button>
                         </Card.Body>
                     </Card>
                     

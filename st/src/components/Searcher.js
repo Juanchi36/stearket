@@ -48,7 +48,7 @@ class Searcher extends React.Component {
 		headers.append('Origin', 'http://localhost:3000');
 		axios
 			.get(
-				'https://cors-anywhere.herokuapp.com/https://www.g2a.com/lucene/search/filter?&search='+ name,
+				'http://localhost:8010/proxy/lucene/search/filter?&search='+ name,
 				{
 					mode: 'cors',
 					credentials: 'include',
@@ -128,9 +128,12 @@ class Searcher extends React.Component {
                     
         headers.append('Set-Cookie','steamCountry=7C659907b7b15177e9d66acd22e0f086f7')
         
+        const url = 'https://cors-anywhere.herokuapp.com/https://store.steampowered.com/api/appdetails?appids='+ this.state.queryResult.appid +'&cc=ars';
+        const url2 = 'http://localhost:8010/proxy/api/appdetails?appids='+ this.state.queryResult.appid +'&cc=ars';
+
 		axios
 			.get(
-				'https://cors-anywhere.herokuapp.com/https://store.steampowered.com/api/appdetails?appids='+ this.state.queryResult.appid +'&cc=ars',
+				url,
 				{
 					mode: 'cors',
 					credentials: 'include',
@@ -141,7 +144,7 @@ class Searcher extends React.Component {
 			)
             .then((res) => {console.log (res.data)
                 let price
-                if(res.data[id].data.price_overview){
+                if(res.data[id].data){
                     let price = (res.data[id].data.price_overview.final / 100)*16
                     this.setState({ steamPrice: price })
                 }
@@ -152,6 +155,8 @@ class Searcher extends React.Component {
                 // console.log(price)
                 //console.log(Object.keys(res.data))
 
+            }).then((err) => {
+                console.log(err)
             });
 
         }
@@ -178,7 +183,7 @@ class Searcher extends React.Component {
 		headers.append('Origin', 'http://localhost:3000');
 		axios
 			.get(
-				'https://cors-anywhere.herokuapp.com/https://www.g2a.com/marketplace/product/auctions/?id=' + e.target.id,
+				'http://localhost:8010/proxy/marketplace/product/auctions/?id=' + e.target.id,
 				{
 					mode: 'cors',
 					credentials: 'include',
@@ -227,7 +232,7 @@ class Searcher extends React.Component {
                 }
                 <div style={{ display: 'inline-flex', width: '100%', justifyContent: 'space-around' }}>
 				<G2aCard slug={slug} imageUrl={imageUrl} showLinks={showLinks} price={price} steamId={878570} gameDescr={gameDescr}/>
-                <SteamCard slug={steamSlug} imageUrl={steamImageUrl} showLinks={showLinks} price={steamPrice} steamId={878570} gameDescr={steamGameDescr}/> 
+                <SteamCard slug={steamSlug} imageUrl={imageUrl} showLinks={showLinks} price={steamPrice} steamId={878570} gameDescr={steamGameDescr}/> 
                 </div> 
             </div>
         );

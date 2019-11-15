@@ -34,7 +34,7 @@ function SteamCard(props){
                             <Card.Text>
                             Precio: {price}
                             </Card.Text>
-                            <Button href={'https://store.steampowered.com/app/' + slug} variant="primary" target="_blank">Comprar en Steam</Button>
+                            <Button href={'https://store.steampowered.com/app/' + slug} variant="primary" target="_blank">Ir a Steam</Button>
                         </Card.Body>
                     </Card>
                     
