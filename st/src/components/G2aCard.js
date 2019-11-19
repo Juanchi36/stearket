@@ -9,12 +9,12 @@ function G2aCard(props){
         return (
             <div>
                 <div style={{ display: 'inline-flex', width: '100%', justifyContent: 'space-around' }}>
-                    <Card style={{ width: '20rem', textAlign: '-webkit-center', backgroundColor: '#8080806b' }}>
+                    <Card style={{ width: '20rem', textAlign: '-webkit-center', backgroundColor: '#8080806b'}}>
                         <Card.Img variant="top" src={imageUrl} style={{ width: '60%', marginTop: '5px'}}/>
                         <Card.Body>
-                            <Card.Title>{gameDescr}</Card.Title>
+                            <Card.Title style={{fontSize: '18px'}}>{gameDescr}</Card.Title>
                             <Card.Text>
-                            Precio: {price}
+                            Precio: ${price}
                             </Card.Text>
                             <Button href={'https://www.g2a.com' + slug} variant="primary" target="_blank">Ir a G2a</Button>
                         </Card.Body>

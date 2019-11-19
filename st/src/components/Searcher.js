@@ -25,6 +25,8 @@ class Searcher extends React.Component {
             steamSlug: '',
             steamGameDescr: '',
             gameLogin: '',
+            background: '',
+            steamPublisher: '',
 		};
 		this.getPrice = this.getPrice.bind(this)
 		this.handleClick = this.handleClick.bind(this)
@@ -49,7 +51,7 @@ class Searcher extends React.Component {
 					headers: headers
 				}
 			)
-			.then((res) => {console.log(res.data)
+			.then((res) => {//console.log(res.data)
 					let games = res.data.docs
 					this.setState({ data : games })
 				}
@@ -61,7 +63,9 @@ class Searcher extends React.Component {
     }
 	
     handleChange(e){
-		e.preventDefault();
+        e.preventDefault();
+        this.setState({ steamGameDescr: ''});
+        this.setState({ background: ''});
 		this.setState({ showLinks: true});
 		this.setState({gameName: e.target.value});
 		let replacedName = e.target.value.replace(/ /g, '+');
@@ -99,7 +103,7 @@ class Searcher extends React.Component {
                     data = res.data
                 }
                 
-                this.setState({ queryResult: data });//console.log(this.state.queryResult)
+                this.setState({ queryResult: data });console.log(query)
                 this.callSteam()
             })
             
@@ -131,15 +135,23 @@ class Searcher extends React.Component {
                     
 				}
 			)
-            .then((res) => {console.log (res.data)
-                let price
-                if(res.data[id].data){
-                    let price = (res.data[id].data.price_overview.final / 100)*16
+            .then((res) => {
+                
+                if(res.data[id].data){console.log(res.data[id].data)
+                    let price;
+                    if(res.data[id].data.price_overview){
+                        price = (res.data[id].data.price_overview.final/100).toFixed(2)
+                    }else{
+                        price = 0;  
+                    }
                     this.setState({ steamPrice: price })
+                    this.setState({ steamImageUrl: res.data[id].data.header_image })
+                    this.setState({ steamGameDescr: res.data[id].data.name })
+                    this.setState({ steamSlug: id })
+                    this.setState({ background: res.data[id].data.background})
+                    
                 }
-                this.setState({ steamImageUrl: res.data[id].data.header_image })
-                this.setState({ steamGameDescr: res.data[id].data.name })
-                this.setState({ steamSlug: id })
+                
                 // console.log(id)
                 // console.log(price)
                 //console.log(Object.keys(res.data))
@@ -189,10 +201,11 @@ class Searcher extends React.Component {
     }
     
     render() {
-        const { data, slug, imageUrl, showLinks, price, steamId, gameDescr, steamSlug, steamGameDescr, steamImageUrl, steamPrice } = this.state;
-        const inputStyle = {width: '80%', marginLeft: '10%', marginTop: '3%'}
+        const { data, slug, imageUrl, showLinks, price, steamId, gameDescr, steamSlug, steamGameDescr, steamImageUrl, steamPrice, background, steamPublisher } = this.state;
+        const inputStyle = {width: '80%', marginLeft: '10%', marginTop: '10px'};
+        
         return (
-            <div>
+            <div style={{ backgroundImage: `url(${background})` }}>
                 <Login game ={this.state.gameLogin}
                 // state={this.state.childA} handleState={this.passProps} 
                 />
@@ -219,7 +232,7 @@ class Searcher extends React.Component {
 					}
 					</div>
                 }
-                <div style={{ display: 'inline-flex', width: '100%', justifyContent: 'space-around' }}>
+                <div style={{ display: 'inline-flex', width: '100%', justifyContent: 'space-evenly' }}>
 				<G2aCard slug={slug} imageUrl={imageUrl} showLinks={showLinks} price={price} steamId={878570} gameDescr={gameDescr}/>
                 <SteamCard slug={steamSlug} imageUrl={imageUrl} showLinks={showLinks} price={steamPrice} steamId={878570} gameDescr={steamGameDescr}/> 
                 </div> 

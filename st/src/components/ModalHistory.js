@@ -27,7 +27,7 @@ class ModalHistory extends Component {
                 //console.log(res.data)
                 this.setState({ history: res.data })
               }).then((err)=>{
-                  console.log(err)
+                  //console.log(err)
             })
         }
     }

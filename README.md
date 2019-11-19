@@ -38,5 +38,18 @@ Servidor para CORS
     lcp --proxyUrl https://www.g2a.com
     lcp --proxyUrl https://store.steampowered.com --port 8011
 
+6. 
+Servidor apache
+
+127.0.0.1:3306 con base de datos llamada games con tabla llamada steamjuegos con un campo appid y otro llamado name.
+
+7. 
+App en ReactJs
+
+    cd steartek/st
+    npm start
+
+
+
 
 
